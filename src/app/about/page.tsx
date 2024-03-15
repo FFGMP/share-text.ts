@@ -8,16 +8,15 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import { Dispatch, SetStateAction, useState } from "react";
 
 //Logica a ser mudada mas por enquanto fica assim
-function clickLinkClose(
+async function clickLinkClose(
   e: React.MouseEvent<HTMLAnchorElement>,
   setCloseSidebar: Dispatch<SetStateAction<boolean>>,
   router: AppRouterInstance,
-) {
+): Promise<void> {
   e.preventDefault();
   setCloseSidebar(true);
-  setTimeout(() => {
-    router.push("/");
-  }, 300);
+  await new Promise((resolve) => setTimeout(resolve, 300));
+  router.push("/");
 }
 
 export default function About() {

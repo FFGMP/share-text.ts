@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
-import { NavMenu } from "./components/navBar";
-import { ThemeProvider } from "./theme-provider";
-import HomeDivRoomInput from "./components/homeDivRoomInput";
-
-const inter = Inter({ subsets: ["latin"] });
+import HomeContent from "./components/home-content";
+import { cookies } from "next/headers";
+import { GeistSans } from "geist/font/sans";
+import Navbar from "./components/navbar";
 
 export const metadata: Metadata = {
   title: "Partilhe os seus textos | texto.space",
@@ -14,21 +12,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
+  const store = cookies();
+  const currentTheme = store.get("theme")?.value || "dark";
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className + " overflow-hidden"}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          disableTransitionOnChange
-        >
-          <HomeDivRoomInput />
-          <NavMenu />
-          {children}
-        </ThemeProvider>
+    <html lang="en" suppressHydrationWarning className={currentTheme}>
+      <body className={GeistSans.className + " overflow-hidden"}>
+        <Navbar path="/" />
+        <HomeContent />
+        {children}
       </body>
     </html>
   );

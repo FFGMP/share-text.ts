@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
+import { cookies } from "next/headers";
 import { NavMenu } from "./components/navBar";
-import { ThemeProvider } from "./theme-provider";
-import HomeDivRoomInput from "./components/homeDivRoomInput";
+import { HomeDivRoomInput } from "./components/homeDivRoomInput";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,18 +17,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookiesStore = cookies();
+  const currentTheme = cookiesStore.get("theme")?.value || "dark";
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={currentTheme}>
       <body className={inter.className + " overflow-hidden"}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          disableTransitionOnChange
-        >
-          <HomeDivRoomInput />
-          <NavMenu />
-          {children}
-        </ThemeProvider>
+        <NavMenu />
+        <HomeDivRoomInput />
+        {children}
       </body>
     </html>
   );

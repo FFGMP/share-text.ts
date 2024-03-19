@@ -38,7 +38,7 @@ export default function About() {
             <SlClose className="cursor-pointer" />
           </Link>
         </div>
-        <div className="absolute flex h-full w-full  flex-col items-center justify-center">
+        <div className="absolute flex h-full w-full flex-col items-center justify-center">
           <div className="h-36 w-36">
             <FaGithub className="h-full w-full" />
           </div>

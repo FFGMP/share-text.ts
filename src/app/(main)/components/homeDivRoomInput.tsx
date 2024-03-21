@@ -3,7 +3,7 @@
 //Serve para perceber em que pagina estou para saber como lidar com o about, isto tem que ser mudado, fica lento quand esta ecra muito pequeno
 import { usePathname } from "next/navigation";
 import { startRoomAction } from "../actions/startRoomAction";
-import { useFormState } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
 import { errorType } from "../types/types";
 
 export function HomeDivRoomInput() {
@@ -12,6 +12,7 @@ export function HomeDivRoomInput() {
     data: "Coloque o nome da sala que pretende criar ou entrar",
   };
   const [state, formAction] = useFormState(startRoomAction, initialState);
+  const status = useFormStatus();
 
   return (
     <div
@@ -34,13 +35,17 @@ export function HomeDivRoomInput() {
             autoComplete="off"
             required
             maxLength={32}
+            autoFocus
           ></input>
           <p className="text-center text-xs text-gray-600 dark:text-neutral-300">
             {state?.status === "failed" ? state.data : initialState.data}
           </p>
         </div>
-        <button className="rounded-md border border-gray-300 bg-gray-200 px-3 py-2 text-sm duration-200 hover:bg-gray-300 dark:border-neutral-500 dark:bg-neutral-700 dark:hover:bg-neutral-800">
-          Entrar
+        <button
+          disabled={status.pending}
+          className="rounded-md border border-gray-300 bg-gray-200 px-3 py-2 text-sm duration-200 hover:bg-gray-300 dark:border-neutral-500 dark:bg-neutral-700 dark:hover:bg-neutral-800"
+        >
+          {status.pending ? "Loading" : "Entrar"}
         </button>
       </form>
     </div>

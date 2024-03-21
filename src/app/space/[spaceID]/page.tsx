@@ -1,7 +1,19 @@
+import { Metadata } from "next";
+import { TextArea } from "./components/textArea";
 export default function Download({ params }: { params: { spaceID: string } }) {
   return (
     <main className="h-screen">
-      <textarea className="h-full w-full resize-none dark:bg-neutral-900"></textarea>
+      <TextArea path={params.spaceID} />
     </main>
   );
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { spaceID: string };
+}): Promise<Metadata> {
+  return {
+    title: decodeURIComponent(params.spaceID) + " | texto.space ",
+  };
 }

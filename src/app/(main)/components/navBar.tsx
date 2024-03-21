@@ -28,11 +28,21 @@ export function NavMenu({ path }: Props) {
       >
         <form action={onSubmit} className="flex items-center justify-center">
           {currentTheme === "dark" ? (
-            <button type="submit" name="theme" value={"light"}>
+            <button
+              type="submit"
+              aria-label="Turn light mode"
+              name="theme"
+              value={"light"}
+            >
               <FaSun />
             </button>
           ) : (
-            <button type="submit" value="dark" name="theme">
+            <button
+              type="submit"
+              value="dark"
+              name="theme"
+              aria-label="Turn dark mode"
+            >
               <FaMoon />
             </button>
           )}

@@ -57,6 +57,7 @@ io.on("connection", function (socket) { return __awaiter(void 0, void 0, void 0,
         socket.on("disconnect", function () {
             console.log("Disconnected");
             connectedUsers.delete(socket.id);
+            console.log(connectedUsers);
         });
         socket.on("new text", function (text, path) {
             textOnSpaces.set(path, text);

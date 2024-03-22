@@ -25,6 +25,7 @@ io.on("connection", async (socket) => {
   socket.on("disconnect", () => {
     console.log("Disconnected");
     connectedUsers.delete(socket.id);
+    console.log(connectedUsers);
   });
 
   socket.on("new text", (text: string, path: string) => {

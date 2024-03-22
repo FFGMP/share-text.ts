@@ -11,22 +11,10 @@ import {
 import { Socket } from "socket.io";
 import { io } from "socket.io-client";
 
-function textoToServer(
-  e: ChangeEvent<HTMLTextAreaElement>,
-  socket: Socket<DefaultEventsMap, DefaultEventsMap>,
-  path: string,
-  textoTextArea: string,
-  setTextoTextArea: Dispatch<SetStateAction<string>>,
-) {
-  if (textoTextArea !== e.target.value) {
-    socket.emit("new text", e.target.value, path);
-  }
-}
+const socket = io("ws://localhost:3001");
 
 export function TextArea({ path }: { path: string }) {
   const [textoTextArea, setTextoTextArea] = useState("");
-
-  const socket = io("localhost:3001");
 
   useEffect(() => {
     socket.on("connect", () => {
@@ -38,20 +26,28 @@ export function TextArea({ path }: { path: string }) {
     });
 
     socket.on("update text", (value: string) => {
-      if (value !== textoTextArea) {
-        setTextoTextArea(value);
-      }
+      setTextoTextArea(value);
     });
   }, []);
 
+  function textoToServer(
+    e: ChangeEvent<HTMLTextAreaElement>,
+    socket: any,
+    path: string,
+    textoTextArea: string,
+  ) {
+    socket.emit("new text", e.target.value, path);
+  }
+
   return (
     <textarea
-      className=" h-full w-full resize-none dark:bg-neutral-900"
+      className="h-full w-full resize-none dark:bg-neutral-900"
       autoFocus
+      value={textoTextArea}
       onChange={(e) => {
-        textoToServer(e, socket, path, textoTextArea, setTextoTextArea);
+        setTextoTextArea(e.target.value);
+        textoToServer(e, socket, path, textoTextArea);
       }}
-      defaultValue={textoTextArea}
     ></textarea>
   );
 }

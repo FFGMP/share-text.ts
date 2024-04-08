@@ -8,6 +8,7 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import { Dispatch, SetStateAction, useState } from "react";
 
 //Logica a ser mudada mas por enquanto fica assim
+//Logic to be changed but for now it stays like this
 async function clickLinkClose(
   e: React.MouseEvent<HTMLAnchorElement>,
   setCloseSidebar: Dispatch<SetStateAction<boolean>>,

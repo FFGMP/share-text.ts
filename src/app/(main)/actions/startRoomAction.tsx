@@ -18,7 +18,7 @@ export async function startRoomAction(
     .refine(
       (value) => /^[a-zA-Z0-9]+$/.test(value),
       "O nome da sala não pode conter caracteres especiais",
-    ); // Add this line
+    );
 
   const verifiedRoomName = mySchema.safeParse(formData.get("Room"));
 

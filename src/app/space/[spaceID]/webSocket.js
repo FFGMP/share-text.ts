@@ -47,7 +47,6 @@ var io = new socket_io_1.Server(httpServer, {
 io.on("connection", function (socket) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         socket.on("join space", function (path, callback) {
-            console.log(socket.id + "joined " + " Space " + path);
             socket.join(path);
             connectedUsers.set(socket.id, path);
             if (textOnSpaces.get(path)) {
@@ -60,7 +59,7 @@ io.on("connection", function (socket) { return __awaiter(void 0, void 0, void 0,
             console.log(connectedUsers);
         });
         socket.on("new text", function (text, path) {
-            textOnSpaces.set(path, text);
+            textOnSpaces.set(path, text.substring(0, 300000));
             socket.to(path).emit("update text", textOnSpaces.get(path));
         });
         return [2 /*return*/];

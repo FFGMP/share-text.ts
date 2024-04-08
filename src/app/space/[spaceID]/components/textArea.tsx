@@ -1,24 +1,19 @@
 "use client";
 
-import { DefaultEventsMap } from "@socket.io/component-emitter";
-import {
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
-import { Socket } from "socket.io";
-import { io } from "socket.io-client";
-
-const socket = io("ws://localhost:3001");
+import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { Socket, io } from "socket.io-client";
 
 export function TextArea({ path }: { path: string }) {
   const [textoTextArea, setTextoTextArea] = useState("");
+  const [disconnected, setDisconnected] = useState(true);
+  const socketRef = useRef<Socket>();
 
   useEffect(() => {
+    const socket = io("ws://localhost:3001");
+    socketRef.current = socket;
+
     socket.on("connect", () => {
-      console.log("Connect");
+      setDisconnected(false);
     });
 
     socket.emit("join space", path, (value: string) => {
@@ -28,26 +23,44 @@ export function TextArea({ path }: { path: string }) {
     socket.on("update text", (value: string) => {
       setTextoTextArea(value);
     });
-  }, []);
 
-  function textoToServer(
-    e: ChangeEvent<HTMLTextAreaElement>,
-    socket: any,
-    path: string,
-    textoTextArea: string,
-  ) {
-    socket.emit("new text", e.target.value, path);
+    socket.on("disconnect", () => {
+      setDisconnected(true);
+    });
+
+    return () => {
+      socket.off("connect");
+      socket.off("update text");
+      socket.off("disconnect");
+      socket.disconnect();
+    };
+  }, [path]);
+
+  function textoToServer(e: ChangeEvent<HTMLTextAreaElement>, path: string) {
+    if (socketRef && socketRef.current) {
+      socketRef.current.emit("new text", e.target.value, path);
+    }
   }
 
   return (
-    <textarea
-      className="h-full w-full resize-none dark:bg-neutral-900"
-      autoFocus
-      value={textoTextArea}
-      onChange={(e) => {
-        setTextoTextArea(e.target.value);
-        textoToServer(e, socket, path, textoTextArea);
-      }}
-    ></textarea>
+    <div className="h-full">
+      {disconnected ? (
+        <div className="absolute right-9 top-2 rounded-md bg-red-400 p-2">
+          <p className="">Disconnected</p>
+        </div>
+      ) : (
+        ""
+      )}
+      <textarea
+        className="h-full w-full resize-none dark:bg-neutral-900"
+        autoFocus
+        value={textoTextArea}
+        maxLength={300000}
+        onChange={(e) => {
+          setTextoTextArea(e.target.value);
+          textoToServer(e, path);
+        }}
+      ></textarea>
+    </div>
   );
 }

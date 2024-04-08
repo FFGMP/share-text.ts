@@ -13,7 +13,6 @@ const io = new Server(httpServer, {
 
 io.on("connection", async (socket) => {
   socket.on("join space", (path: string, callback: any) => {
-    console.log(socket.id + "joined " + " Space " + path);
     socket.join(path);
     connectedUsers.set(socket.id, path);
 
@@ -29,7 +28,7 @@ io.on("connection", async (socket) => {
   });
 
   socket.on("new text", (text: string, path: string) => {
-    textOnSpaces.set(path, text);
+    textOnSpaces.set(path, text.substring(0, 300000));
     socket.to(path).emit("update text", textOnSpaces.get(path));
   });
 });

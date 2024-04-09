@@ -1,6 +1,44 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## share-text.ts
 
-## Getting Started
+This project is a showcase of a web application designed for creating and sharing text online via custom rooms. The application provides a user-friendly interface and robust functionality to facilitate seamless text sharing among users. It is highly performant, ensuring efficient and real-time text transfers.
+
+## Showcase
+
+### Home page, here you can change the theme and toggle the about page
+
+![Home](./ReadmeImages/image-0.png)
+
+![AboutToggle](./ReadmeImages/image-1.png)
+
+### Light theme
+
+![LightTheme](./ReadmeImages/image-2.png)
+
+### Write the room name
+
+![RoomName_Home](./ReadmeImages/image-3.png)
+
+### Redirected to the specified room, where the user can write anything
+
+![Writtentext_Home](./ReadmeImages/image-4.png)
+
+## Creation Process
+
+Technologies used: Next.js, TailwindCSS, Zod
+
+The foundation of this project was laid using the dynamic and adaptable Next.js framework. The primary aim of this venture was to build a sturdy and high-performance text sharing platform, facilitating users to share text effortlessly online via custom rooms.
+
+Throughout the development phase, the design aspect of the page was given significant attention, alongside a strong emphasis on functionality and performance. The goal was to ensure the text sharing process was not only swift but also reliable and intuitive for users.
+
+With a focus on speed and efficiency, the project strives to deliver an exceptional user experience. Users can swiftly create their custom rooms and share text.
+
+## Key Features
+
+- ✔️ Seamless Text Sharing: Enables users to share text effortlessly.
+- ✔️ Custom Rooms: Provides the ability to create personalized rooms for text sharing.
+- ✔️ Temporary Text: All text rooms are erased when the websockets server is shutdown.
+
+## Running the Project Locally
 
 First, run the development server:
 
